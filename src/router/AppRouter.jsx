@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import MovieDetail from "../pages/MovieDetail";
 import Navbar from "../components/Navbar";
 import PrivateRouter from "./PrivateRouter";
+import AppFavorite from "../pages/AppFavorite";
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ const AppRouter = () => {
         <Route path="/details/:id" element={<PrivateRouter />}>
           <Route path="" element={<MovieDetail />} />
         </Route>
+          <Route path="/favorites" element={<AppFavorite/>} />
       </Routes>
     </>
   );

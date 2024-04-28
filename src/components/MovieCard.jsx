@@ -1,6 +1,9 @@
 import React from "react";
 import { useAuthContext } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
+import { useMovieContext } from "../context/MovieProvider";
+
 
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 const defaultImage =
@@ -8,7 +11,11 @@ const defaultImage =
 
 const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
   const { currentUser } = useAuthContext();// vote-average bilgilerini currentuser varsa göstereceğimizden contextten tüketiyoruz burada.
+   const { favorites,handleFavorite,movies,isFavorite} =useMovieContext()
   const navigate = useNavigate();
+  
+ 
+  console.log(favorites);
 
   const getVoteClass = (vote) => {// vote-average bilgilerine göre değişecek olan styleler  nested ternary karışık olabilir diye if-else
     if (vote >= 8) {
@@ -21,16 +28,17 @@ const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
   };
 
   return (
+    <>
     <div
       className="movie"
       id="container"
-      onClick={() => navigate("/details/" + id)}
+     
     >
-      <img
+      <div className="flex justify-center gap-5 items-center"><img  onClick={() => navigate("/details/" + id)}
         loading="lazy"
         src={poster_path ? IMG_API + poster_path : defaultImage}
-        alt="movie-card"
-      />
+        alt="movie-card" /><p className="">{currentUser && (<FaHeart onClick={()=>handleFavorite({ id, title, poster_path, overview, vote_average })} className="text-red-500 m-auto text-2xl cursor-pointer" />)}</p></div>
+
       <div className="flex align-baseline justify-between p-1 text-white">
         <h5>{title}</h5>
         {currentUser && ( // else olmadığından ternary değil &&  getvoteclass methodunu avarajın puanına göre ekliyor ${string dönecek burası} 
@@ -41,9 +49,9 @@ const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
       </div>
       <div className="movie-over">
         <h2>Overview</h2>
-        <p>{overview}</p>
+        <p>{overview} </p>
       </div>
-    </div>
+    </div></>
   );
 };
 
