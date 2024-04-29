@@ -41,13 +41,14 @@ const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
             {" "}
             {currentUser && (
               <FaHeart
-                onClick={() =>
+                onClick={(e) =>
                   handleFavorite({
                     id,
                     title,
                     poster_path,
                     overview,
                     vote_average,
+                    
                   })
                 }
                 className={`${heartClass} m-auto text-2xl cursor-pointer`}

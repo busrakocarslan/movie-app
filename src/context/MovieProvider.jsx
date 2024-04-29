@@ -27,6 +27,7 @@ const MovieProvider = ({ children }) => {
 
   const addFavoriteMovie = (movie) => {
     setFavorites([...favorites, movie]);
+    
     // movie.isFavorite = true;
   };
 
@@ -73,6 +74,9 @@ const MovieProvider = ({ children }) => {
         favorites,
         setFavorites,
         handleFavorite,
+        addFavoriteMovie,
+        removeFavoriteMovie,
+        setHeartClass
       }}
     >
       {children}
