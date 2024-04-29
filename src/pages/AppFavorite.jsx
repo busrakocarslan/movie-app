@@ -16,11 +16,11 @@ const AppFavorite = () => {
     // const favoriteMovies= movies.filter(movie=>favorites.some(favorite=>favorite.id===movie.id))
     // console.log(favoriteMovies)
     return (
-      <div className='border-4 border-red-500 flex'>
+      <div className='p-5 w-[80vw]'>
         {favorites?.length ? (
-          <div className='favorites w-[20vw]'>
+          <div className='favorites max-w-[40vw] flex gap-5'>
             {favorites.map((movie) => (
-              <div key={movie.id}>
+              <div key={movie.id} className='border-2 rounded-md overflow-hidden text-white'>
                 <img src={movie.poster_path ? baseImageUrl +movie.poster_path : defaultImage} alt={movie.title} />
                 
                <span>{(movie.vote_average).toFixed(1)}</span>
