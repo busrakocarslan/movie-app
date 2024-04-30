@@ -15,33 +15,30 @@ const MovieProvider = ({ children }) => {
   const [movies, setMovies] = useState([]); // boş hali gelen data array olduğundan boş data
   const [loading, setLoading] = useState(false); // moviler gelene kadar verilecek olan loodingin state i
   let [favorites, setFavorites] = useState([]); // favorileri eklemek için oluşturduğum boş state
-  let [heartClass,setHeartClass]=useState("text-yellow-300")
+ 
+
   const isFavorite = favorites.some((movie) => movie.id === movies.id);
 
-  const removeFavoriteMovie = (movie) => {
-    // movie.isFavorite = false;
+ 
+
+  const removeFavoriteMovie = (movie, e) => {
     const newFavoriteList = favorites.filter((fav) => fav.id !== movie.id);
     setFavorites(newFavoriteList);
-    
   };
 
-  const addFavoriteMovie = (movie) => {
+  const addFavoriteMovie = (movie, e) => {
     setFavorites([...favorites, movie]);
-    
-    // movie.isFavorite = true;
   };
 
   const handleFavorite = (movie) => {
+    const { id } = movie;
     console.log("Clicked movie:", movie);
-
     const isFavorite = favorites.some((favorite) => favorite.id === movie.id);
 
     if (isFavorite) {
       removeFavoriteMovie(movie);
-      setHeartClass("text-yellow-300")
     } else {
       addFavoriteMovie(movie);
-      setHeartClass("text-red-500")
     }
   };
 
@@ -66,7 +63,7 @@ const MovieProvider = ({ children }) => {
   return (
     <MovieContext.Provider
       value={{
-        heartClass,
+      
         isFavorite,
         movies,
         loading,
@@ -76,7 +73,6 @@ const MovieProvider = ({ children }) => {
         handleFavorite,
         addFavoriteMovie,
         removeFavoriteMovie,
-        setHeartClass
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
@@ -8,10 +8,15 @@ const IMG_API = "https://image.tmdb.org/t/p/w1280";
 const defaultImage =
   "https://images.unsplash.com/photo-1581905764498-f1b60bae941a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80";
 
-const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
+const MovieCard = (movie) => {
+  const { title, poster_path, overview, vote_average, id } = movie;
   const { currentUser } = useAuthContext(); // vote-average bilgilerini currentuser varsa göstereceğimizden contextten tüketiyoruz burada.
-  const { favorites, handleFavorite, movies, isFavorite,heartClass } = useMovieContext();
+  const { favorites, handleFavorite } = useMovieContext();
   const navigate = useNavigate();
+  const isFavorite = (movieId) => {
+    return favorites.some((favorite) => favorite.id === movieId);
+  };
+  const [liked, setLiked] = useState(isFavorite({ id }));
 
   console.log(favorites);
 
@@ -25,7 +30,16 @@ const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
       return "red";
     }
   };
-
+  const toggleLike = () => {
+    setLiked(!liked);
+    handleFavorite({
+      id,
+      title,
+      poster_path,
+      overview,
+      vote_average,
+    });
+  };
 
   return (
     <>
@@ -41,17 +55,11 @@ const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
             {" "}
             {currentUser && (
               <FaHeart
-                onClick={(e) =>
-                  handleFavorite({
-                    id,
-                    title,
-                    poster_path,
-                    overview,
-                    vote_average,
-                    
-                  })
-                }
-                className={`${heartClass} m-auto text-2xl cursor-pointer`}
+                onClick={toggleLike}
+                id={id}
+                className={`${
+                  liked ? "text-red-500" : "text-yellow-500"
+                } m-auto text-2xl cursor-pointer`}
               />
             )}
           </p>
