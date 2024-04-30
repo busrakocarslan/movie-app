@@ -16,7 +16,8 @@ const MovieCard = (movie) => {
   const isFavorite = (movieId) => {
     return favorites.some((favorite) => favorite.id === movieId);
   };
-  const [liked, setLiked] = useState(isFavorite({ id }));
+  const storedLiked=JSON.parse(sessionStorage.getItem(`liked-${id}`))
+  const [liked, setLiked] = useState(storedLiked || false);
 
   console.log(favorites);
 
@@ -30,8 +31,10 @@ const MovieCard = (movie) => {
       return "red";
     }
   };
-  const toggleLike = () => {
-    setLiked(!liked);
+  const toggleLike = () => {  
+    const newStoredLiked=!liked  
+    setLiked(newStoredLiked);
+    sessionStorage.setItem(`liked-${id}`, JSON.stringify(newStoredLiked))
     handleFavorite({
       id,
       title,
