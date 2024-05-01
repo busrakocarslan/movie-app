@@ -23,7 +23,7 @@ const AppFavorite = () => {
               <div key={movie.id} className='border-2 rounded-md max-w-[250px] overflow-hidden text-white'>
                 <img src={movie.poster_path ? baseImageUrl +movie.poster_path : defaultImage} alt={movie.title} />
                 
-               <span>{(movie.vote_average).toFixed(1)}</span>
+               <span>{movie.vote_average.toFixed(1)}</span>
                 
               </div>
             ))}
